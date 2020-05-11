@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # Configure your database
 config :novy_api, NovyApi.Repo,
@@ -8,6 +8,8 @@ config :novy_api, NovyApi.Repo,
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
+
+# ecto://postgres:pass@localhost:5432/novy  
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
