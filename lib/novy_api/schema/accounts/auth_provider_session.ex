@@ -1,6 +1,6 @@
 defmodule NovyApi.AuthProviderSession do
   use Ecto.Schema
-  
+
   import Ecto.Changeset
 
   alias NovyApi.{Repo, AuthProvider, AuthProviderSession, User}

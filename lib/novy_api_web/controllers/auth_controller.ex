@@ -9,6 +9,7 @@ defmodule NovyApiWeb.AuthController do
     case UserService.init_auth(provider) do
       {:ok, url} ->
         render(conn, "api-data.json", data: %{"url" => url})
+
       {:error, message} ->
         render(conn, "api-error.json", message: "Provider invalide ou non configuré")
     end
@@ -21,6 +22,7 @@ defmodule NovyApiWeb.AuthController do
 
   def authenticate(conn) do
     IO.inspect("AUTH")
+
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
          {:ok, %AuthProviderSession{user: user}} <- UserService.session_by_token(token) do
       %{

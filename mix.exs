@@ -10,7 +10,14 @@ defmodule NovyApi.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ]
     ]
   end
 
@@ -45,7 +52,8 @@ defmodule NovyApi.MixProject do
       {:httpoison, "~> 1.5"},
       {:elixpath, "~> 0.1.0"},
       {:cors_plug, "~> 2.0"},
-      {:guardian, "~> 2.0"}
+      {:guardian, "~> 2.0"},
+      {:excoveralls, "~> 0.10", only: :test}
     ]
   end
 
@@ -56,10 +64,6 @@ defmodule NovyApi.MixProject do
   #
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
-    [
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-      "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
-    ]
+    []
   end
 end

@@ -1,20 +1,24 @@
 import Config
 
-database_url =
-  System.get_env("DATABASE_URL_TEST") ||
-    raise """
-    environment variable DATABASE_URL_TEST is missing.
-    For example: ecto://USER:PASS@HOST/DATABASE
-    """
+# database_url =
+#   System.get_env("DATABASE_URL_TEST") ||
+#     raise """
+#     environment variable DATABASE_URL_TEST is missing.
+#     For example: ecto://USER:PASS@HOST/DATABASE
+#     """
+
+database_url = "ecto://postgres:pass@host.docker.internal:5432/novy_test"
 
 # Configure your database
-config :novy, Novy.Repo,
+config :novy_api, NovyApi.Repo,
   url: database_url,
+  show_sensitive_data_on_connection_error: true,
   pool: Ecto.Adapters.SQL.Sandbox
+
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :novy_api, NovyApiWeb.Endpoint,
-  http: [port: 4002],
+  http: [port: 10000],
   server: false
 
 # Print only warnings and errors during test

@@ -12,5 +12,4 @@ defmodule NovyApiWeb.AuthView do
   def render("api-error.json", %{message: message}) do
     %{message: message}
   end
-
 end

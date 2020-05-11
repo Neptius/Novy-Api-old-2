@@ -20,6 +20,7 @@ defmodule NovyApiWeb.UserService do
     else
       {:error, error} ->
         {:error, error}
+
       _ ->
         {:error, "Provider invalide ou non configuré"}
     end
