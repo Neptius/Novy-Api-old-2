@@ -1,13 +1,11 @@
 import Config
 
-# database_url =
-#   System.get_env("DATABASE_URL_TEST") ||
-#     raise """
-#     environment variable DATABASE_URL_TEST is missing.
-#     For example: ecto://USER:PASS@HOST/DATABASE
-#     """
-
-database_url = "ecto://postgres:pass@host.docker.internal:5432/novy_test"
+database_url =
+  System.get_env("DATABASE_URL_TEST") ||
+    raise """
+    environment variable DATABASE_URL_TEST is missing.
+    For example: ecto://USER:PASS@HOST/DATABASE
+    """
 
 # Configure your database
 config :novy_api, NovyApi.Repo,
