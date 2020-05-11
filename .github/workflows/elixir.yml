@@ -74,3 +74,4 @@ jobs:
         name: novy-api
         secure-environment-variables: DATABASE_URL=${{ secrets.DATABASE_URL }} SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}
         location: 'westeurope'
+        ports: '10000'
