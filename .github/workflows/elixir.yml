@@ -74,4 +74,4 @@ jobs:
         registry-username: ${{ secrets.DOCKER_USERNAME }}
         registry-password: ${{ secrets.DOCKER_PASSWORD }}
         name: novy-api
-        location: 'francecentral'
+        location: 'westeurope'
