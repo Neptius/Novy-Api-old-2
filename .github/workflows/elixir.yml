@@ -71,8 +71,6 @@ jobs:
         resource-group: novy-ressources
         dns-name-label: novy-api-dns
         image: neptius/novy-api:${{ github.sha }}
-        registry-username: ${{ secrets.DOCKER_USERNAME }}
-        registry-password: ${{ secrets.DOCKER_PASSWORD }}
         name: novy-api
         secure-environment-variables: DATABASE_URL=${{ secrets.DATABASE_URL }} SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}
         location: 'westeurope'
