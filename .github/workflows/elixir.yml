@@ -30,3 +30,48 @@ jobs:
       
     - name: Run Tests
       run: mix coveralls.github
+
+  build:
+    needs: test
+    
+    name: Build & Push
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: neptius/novy-api
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        tags: "latest,${{ github.sha }}"
+
+  deploy:
+    needs: build
+
+    name: Deploy
+
+    runs-on: ubuntu-latest
+    steps:
+    # checkout the repo
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@master
+      
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: 'Deploy to Azure Container Instances'
+      uses: 'azure/aci-deploy@v1'
+      with:
+        resource-group: novy-ressources
+        dns-name-label: novy-api-dns
+        image: neptius/novy-api:${{ github.sha }}
+        registry-username: ${{ secrets.DOCKER_USERNAME }}
+        registry-password: ${{ secrets.DOCKER_PASSWORD }}
+        name: novy-api
+        location: 'francecentral'
