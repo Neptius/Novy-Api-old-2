@@ -49,29 +49,29 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         tags: "latest,${{ github.sha }}"
 
-  deploy:
-    needs: build
+  # deploy:
+  #   needs: build
 
-    name: Deploy
+  #   name: Deploy
 
-    runs-on: ubuntu-latest
-    steps:
-    # checkout the repo
-    - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   # checkout the repo
+  #   - name: 'Checkout GitHub Action'
+  #     uses: actions/checkout@master
       
-    - name: 'Login via Azure CLI'
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+  #   - name: 'Login via Azure CLI'
+  #     uses: azure/login@v1
+  #     with:
+  #       creds: ${{ secrets.AZURE_CREDENTIALS }}
     
-    - name: 'Deploy to Azure Container Instances'
-      uses: 'azure/aci-deploy@v1'
-      with:
-        resource-group: novy-ressources
-        dns-name-label: novy-api-dns
-        image: neptius/novy-api:${{ github.sha }}
-        name: novy-api
-        secure-environment-variables: DATABASE_URL=${{ secrets.DATABASE_URL }} SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}
-        location: 'westeurope'
-        ports: '10000'
+  #   - name: 'Deploy to Azure Container Instances'
+  #     uses: 'azure/aci-deploy@v1'
+  #     with:
+  #       resource-group: novy-ressources
+  #       dns-name-label: novy-api-dns
+  #       image: neptius/novy-api:${{ github.sha }}
+  #       name: novy-api
+  #       secure-environment-variables: DATABASE_URL=${{ secrets.DATABASE_URL }} SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}
+  #       location: 'westeurope'
+  #       ports: '10000'
