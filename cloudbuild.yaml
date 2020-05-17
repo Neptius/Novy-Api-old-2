@@ -14,7 +14,7 @@ steps:
     - '--image'
     - 'gcr.io/$PROJECT_ID/novy_api:$COMMIT_SHA'
     - '--region'
-    - 'europe-west1-b'
+    - 'europe-west1'
     - '--platform'
     - 'managed'
     - '--allow-unauthenticated'
