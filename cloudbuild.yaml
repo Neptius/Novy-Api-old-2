@@ -18,5 +18,5 @@ steps:
     - '--platform'
     - 'managed'
     - '--allow-unauthenticated'
-  - images:
-    - gcr.io/$PROJECT_ID/novy-api
+images:
+- gcr.io/$PROJECT_ID/novy-api
