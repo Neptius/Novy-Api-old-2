@@ -1,4 +1,4 @@
-# NovyApi
+# Novy-Api
 
 To start your Phoenix server:
 
