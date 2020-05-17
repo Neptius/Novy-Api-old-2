@@ -10,7 +10,7 @@ steps:
     args:
     - 'run'
     - 'deploy'
-    - '[SERVICE_NAME]'
+    - 'novy-api'
     - '--image'
     - 'gcr.io/$PROJECT_ID/novy_api:$COMMIT_SHA'
     - '--region'
