@@ -1,0 +1,70 @@
+name: Test, Build and Deploy to Cloud Run
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  PROJECT_ID: ${{ secrets.RUN_PROJECT }}
+  RUN_REGION: europe-west1
+  SERVICE_NAME: novy-api
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    
+    env:
+      MIX_ENV: test
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DATABASE_URL_TEST: ${{ secrets.DATABASE_URL_TEST }}
+
+    steps:
+    - uses: actions/checkout@v1
+      
+    - name: Setup elixir
+      uses: actions/setup-elixir@v1
+      with:
+        elixir-version: 1.10.3 # Define the elixir version [required]
+        otp-version: 22.2 # Define the OTP version [required]
+      
+    - name: Install Dependencies
+      run: mix deps.get
+      
+    - name: Run Tests
+      run: mix coveralls.github
+
+  build-deploy:
+    needs: test
+
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Setup gcloud CLI
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '290.0.1'
+        service_account_key: ${{ secrets.GCP_CLOUD_RUN_SERVICE_KEY }}
+        project_id: ${{ secrets.RUN_PROJECT }}
+
+    # Build and push image to Google Container Registry
+    - name: Build
+      run: |-
+        gcloud builds submit \
+          --quiet \
+          --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
+    # Deploy image to Cloud Run
+    - name: Deploy
+      run: |-
+        gcloud run deploy "$SERVICE_NAME" \
+          --quiet \
+          --region "$RUN_REGION" \
+          --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
+          --platform "managed" \
+          --allow-unauthenticated
