@@ -1,5 +1,11 @@
 name: Continuous Integration
 
+on:
+  push:
+    branches:
+      - master
+      - development
+
 jobs:
   test:
     name: Test
